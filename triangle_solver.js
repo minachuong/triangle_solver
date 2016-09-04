@@ -5,6 +5,8 @@
 // asa: 0 opp 1 side 2 ang
 // aas: 1 opp 1 side 2 ang
 
+//TODO: fix naming conventions; use given_side1 vs unknown_side2
+
 
 function triangleSolver() {
   // this.given_conditions = {a:4, b:6, c:9}; //sss
@@ -77,8 +79,6 @@ function triangleSolver() {
     var angle_opposite_c = lawOfCosinesAngle(c,side_opposite_angle,b);
 
     return angle_opposite_c;
-
-
   }
 
 }
