@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+</head>
+<body>
+
+<div ng-app="myApp" ng-controller="triangleSolver">
+
+First Input: <input type="number" ng-model="given_conditions.a"><br>
+Second Input: <input type="number" ng-model="given_conditions.b"><br>
+Third Input: <input type="number" ng-model="given_conditions.c"><br>
+<br>
+Unknown Angles {{ sss() }}
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('triangleSolver', function($scope) {
+
+  var lawOfCosinesAngle = function(side1,side2,side3) {
+    // this angle is opposite of the first side, a
+    var angle = Math.acos((side2**2 + side3**2 - side1**2) / (2*side2*side3));
+    angle = convertRadsToDegs(angle); // convert from radians to degrees
+    return angle;
+  }
+
+  // this function converts radians to degrees
+  var convertRadsToDegs = function(radian_angle) {
+    var degree_angle = radian_angle/(Math.PI)*180;
+    return degree_angle;
+  }
+
+  //$scope.first_side = 4;
+  //$scope.second_side = 4;
+  //$scope.third_side = 4;
+
+  $scope.given_conditions = {a: 0, b: 0, c: 0}
+
+  $scope.sss = function() {
+    //$scope.given_conditions = {a: parseInt($scope.first_side), b: parseInt($scope.second_side), c: parseInt($scope.third_side)};
+    var a = $scope.given_conditions.a;
+    var b = $scope.given_conditions.b;
+    var c = $scope.given_conditions.c;
+
+    var first_angle = lawOfCosinesAngle(a,b,c);
+    var second_angle = lawOfCosinesAngle(b,a,c);
+    var third_angle = lawOfCosinesAngle(c,a,b);
+    return third_angle
+  };
+});
+</script>
+
+</body>
+</html>

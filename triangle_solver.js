@@ -5,7 +5,7 @@
 // asa: 0 opp 1 side 2 ang
 // aas: 1 opp 1 side 2 ang
 
-//TODO: fix naming conventions; use given_side1 vs unknown_side2
+// TODO: fix naming conventions; use given_side1 vs unknown_side2
 
 
 function triangleSolver() {
@@ -62,9 +62,9 @@ function triangleSolver() {
     var second_angle = lawOfCosinesAngle(b,a,c);
     var third_angle = lawOfCosinesAngle(c,a,b);
 
-    //TODO: return object of all sides and associated angles?
+    // TODO: return object of all sides and associated angles?
     // var solution = {}
-    // return third_angle;
+    return third_angle;
   }
 
   this.sas = function () {
