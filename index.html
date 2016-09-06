@@ -11,7 +11,9 @@ First Input: <input type="number" ng-model="given_conditions.a"><br>
 Second Input: <input type="number" ng-model="given_conditions.b"><br>
 Third Input: <input type="number" ng-model="given_conditions.c"><br>
 <br>
-Unknown Angles {{ sss() }}
+Unknown Angles {{ sss().first_angle }}
+Unknown Angles {{ sss().second_angle }}
+Unknown Angles {{ sss().third_angle }}
 
 </div>
 
@@ -32,10 +34,6 @@ app.controller('triangleSolver', function($scope) {
     return degree_angle;
   }
 
-  //$scope.first_side = 4;
-  //$scope.second_side = 4;
-  //$scope.third_side = 4;
-
   $scope.given_conditions = {a: 0, b: 0, c: 0}
 
   $scope.sss = function() {
@@ -43,11 +41,13 @@ app.controller('triangleSolver', function($scope) {
     var a = $scope.given_conditions.a;
     var b = $scope.given_conditions.b;
     var c = $scope.given_conditions.c;
+    var solutions = {};
 
-    var first_angle = lawOfCosinesAngle(a,b,c);
-    var second_angle = lawOfCosinesAngle(b,a,c);
-    var third_angle = lawOfCosinesAngle(c,a,b);
-    return third_angle
+    solutions.first_angle = lawOfCosinesAngle(a,b,c);
+    solutions.second_angle = lawOfCosinesAngle(b,a,c);
+    solutions.third_angle = lawOfCosinesAngle(c,a,b);
+
+    return solutions;
   };
 });
 </script>
