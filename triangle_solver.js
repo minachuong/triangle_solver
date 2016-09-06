@@ -3,14 +3,18 @@
 // asa: 0 opp 1 side 2 ang
 // non-possible triangles based on side lengths
 
-// ssa: 1 opp 2 sides 1 ang
 // aas: 1 opp 1 side 2 ang
+// ssa: 1 opp 2 sides 1 ang
 
 function triangleSolver() {
-  this.given_conditions = {a:4, b:6, c:9}; //sss
+  // this.given_conditions = {a:4, b:6, c:9}; //sss
   // this.given_conditions = {a:4, b:60, c:9}; //sas
   // this.given_conditions = {a:50,b:3,c:20}; //asa
+  // this.given_conditions = {a:20,b:50,c:5} //aas
   // this.given_conditions = {a:2,b:4,c:1}; //sss-not possible
+  // this.given_conditions = {a:5,b:2,c:70} //ssa; no solutions
+  this.given_conditions = {a:5,b:10,c:70} //ssa; one solution
+  // this.given_conditions = {a:16,b:10,c:30} //ssa; two solutions
 
 
   // converts degrees to radians
@@ -89,6 +93,7 @@ function triangleSolver() {
 
   // finds two angles opposite of the given sides and the side opposite of the given angle
   // this.given_conditions = {a:4, b:60, c:9};
+  // this.given_conditions = {non-paired side, non-paired angle, non-paired side};
   this.sas = function () {
 
     var side1 = this.given_conditions.a;
@@ -105,6 +110,8 @@ function triangleSolver() {
 
   // finds two sides opposite of the given angles and the angle opposite of the given side
   // this.given_conditions = {a:50,b:3,c:20}
+  // this.given_conditions = {non-paired angle, non-paired side, non-paired angle} //aas
+
   this.asa = function(){
 
     var angle1 = this.given_conditions.a;
@@ -118,9 +125,62 @@ function triangleSolver() {
 
     return solutions;
   };
+  // finds two sides and an angle, given that there is one opposite pair
+  // this.given_conditions = {a:20,b:50,c:5} //aas
+  // this.given_conditions = {non-paired angle, pair angle, pair side} //aas
+  this.aas = function(){
+
+    var angle1 = this.given_conditions.a;
+    var angle2 = this.given_conditions.b;
+    var side2 = this.given_conditions.c;
+    var solutions = {};
+
+    solutions.angle3 = findThirdAngle(angle1,angle2);
+    solutions.side1 = lawOfSinesSide(convertDegsToRads(angle2),side2,convertDegsToRads(angle1));
+    solutions.side3 = lawOfSinesSide(convertDegsToRads(angle2),side2,convertDegsToRads(solutions.angle3));
+
+    return solutions;
+  };
+
+  // finds two angles and a side, given that there is one opposite pair
+  // this handles ambiguous situations
+  // this.given_conditions = {non-paired side, paired side, paired angle} //aas
+  // this.given_conditions = {a:5,b:2,c:70} //ssa; no solutions
+  // this.given_conditions = {a:5,b:10,c:70} //ssa; one solution
+  // this.given_conditions = {a:16,b:10,c:30} //ssa; two solutions
+  this.ssa = function(){
+
+    var side1 = this.given_conditions.a;
+    var side2 = this.given_conditions.b;
+    var angle2 = convertDegsToRads(this.given_conditions.c);
+    var solutions = {};
+    var angle1 = lawOfSinesAngle(angle2,side2,side1);
+
+    // ratio determines whether a triangle is possible
+    // var ratio = side1*Math.sin(angle2)/side2;
+
+    if (isNaN(angle1)) {
+      return "No possible triangle";
+    } else if ( (180 - angle1) + convertRadsToDegs(angle2) > 180) {
+      // only one solution
+      return "one solution";
+      // var angle3 = findThirdAngle(angle1,convertRadsToDegs(angle2));
+      // return angle3;
+    } else {
+      // two solution sets
+      return "two solutions";
+
+    };
+
+    // solutions.angle3 = findThirdAngle(angle1,angle2);
+    // solutions.side1 = lawOfSinesSide(convertDegsToRads(angle2),side2,convertDegsToRads(angle1));
+    // solutions.side3 = lawOfSinesSide(convertDegsToRads(angle2),side2,convertDegsToRads(solutions.angle3));
+
+    // return angle1;
+  };
 
 
 }
 
 t = new triangleSolver();
-t.tit();
+t.ssa();
